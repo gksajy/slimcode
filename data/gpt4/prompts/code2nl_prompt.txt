@@ -1,0 +1,6 @@
+Code Snippet:[code]
+
+You are given an incomplete code snippet. You should guess the original code and write a short sentence (within 50 words) to describe the function of the code snippet. Answer in the following format.
+
+Code Description: [code description]
+

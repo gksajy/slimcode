@@ -1,0 +1,8 @@
+Code Snippet:[code]
+
+Text:[text]
+
+Please infer whether the given incomplete code snippet and the given text correspond. Please analyze step-by-step first, and then answer in the following format.
+
+Analysis: [step-by-step analysis]
+Answer: [Yes/No]
