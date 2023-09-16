@@ -44,7 +44,7 @@ The original data can be downloaded from [CodeBERT](https://github.com/microsoft
 
 ## Process the dataset
 ### Random process
-We remove tokens from the code randomly and we reference the code from [DietCode](https://github.com/zhangzwwww/DietCode).Our modified code is can be found [here](https://github.com/cufelxn/slimcode/tree/main/random).It's easy to use the code to process our preprocessed data. 
+We remove tokens from the code randomly and we reference the code from [DietCode](https://github.com/zhangzwwww/DietCode).Our modified code can be found [here](https://github.com/cufelxn/slimcode/tree/main/random).We use the code to remove 10%-50% tokens from the given code snippet.
 ### Category process
 We divide the tokens in the code into 3 levels: lexical level, Syntactic level and semantic level. The lexical level includes symbol tokens and identifiers. Syntactic level includes structure tokens, signature tokens and invocation tokens. The semantic level includes the tokens in PDG. For the first two levels,we recognize them from the code by AST.And we use [JavaParser](https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core) to convert the code into AST and then we remove the tokens from the code by AST independently. For the last level,we moditified the [javaDependencyGraph](https://github.com/hpnog/javaDependenceGraph) to generate PDGS for a large number of functions in our dataset.Our modiified code can be found [here](url).Because our code processes the dataset in line,so the function in the code should include "\n" in the end of the line.So the dataset needs to be preprocessed to process the code by line in PDG.Our preprocessed dataset can be found [here](url).
 ### DietCode process
