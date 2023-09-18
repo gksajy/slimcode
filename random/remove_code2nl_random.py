@@ -1,6 +1,6 @@
 
 STAGE = "test"
-f = open(f"../data/code2nl/base/{STAGE}_new_0826.txt","r")
+f = open(f"../data/code2nl/base/{STAGE}_new_no_comment.txt","r")
 lines = f.readlines()
 import json
 f.close()
