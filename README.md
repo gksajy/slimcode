@@ -47,14 +47,14 @@ The original data can be downloaded from [CodeBERT](https://github.com/microsoft
 We remove tokens from the code randomly and we reference the code from [DietCode](https://github.com/zhangzwwww/DietCode).Our modified code can be found [here](https://github.com/cufelxn/slimcode/tree/main/random).We use the code to remove 10%-50% tokens from the given code snippet.
 ### Category process
 We divide the tokens in the code into 3 levels: lexical level, syntactic level and semantic level. The lexical level includes symbol tokens and identifiers. Syntactic level includes structure tokens, signature tokens and invocation tokens. The semantic level includes the tokens in PDG. In the first two levels,we recognize identifiers,structure tokens,signature tokens and invocation tokens from the code by AST.And we use [JavaParser](https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core) to convert the code into AST and then we remove the tokens from the code by AST independently.The relationship of our category and the node type can be seen in the table.
-<table align="center">
+<table align="center" bgcolor="#E0E0E0" style="background-color:white;">
 	<tr>
-		<td>level</td>
-		<td>category</td>
-		<td>node type</td>
+		<th>level</th>
+		<th>category</th>
+		<th>node type</th>
 	</tr>
 	<tr>
-		<td rowspan="2">lexical</td>
+		<th rowspan="2" style="background-color: transparent;">lexical</th>
 		<td>symbol tokens</td>
 		<td>none</td>
 	</tr>
@@ -63,7 +63,7 @@ We divide the tokens in the code into 3 levels: lexical level, syntactic level a
 		<td>NameExpr node <br> VariableDeclarationExpr</td>
 	</tr>
 	<tr>
-		<td rowspan="3">syntactic</td>
+		<th rowspan="3">syntactic</th>
 		<td>structure tokens</td>
 		<td>
 			TryStmt node <br>
@@ -84,25 +84,25 @@ We divide the tokens in the code into 3 levels: lexical level, syntactic level a
 		<td>MethodCallExpr node</td>
 	</tr>
 	<tr>
-		<td>semantic</td>
+		<th>semantic</th>
 		<td>PDG tokens</td>
 		<td>javaDependencyGraph</td>
 	</tr>
 </table>
 
-For the last level,we moditified the [javaDependencyGraph](https://github.com/hpnog/javaDependenceGraph) to generate PDG for a large number of functions in our dataset.Our modiified code can be found [here](url).Because our code processes the dataset in line,so the function in the code should include "\n" in the end of the line so that we can remove the code by PDG in line.So we provide our preprocessed dataset for PDG.Our preprocessed dataset can be found [here](https://drive.google.com/drive/folders/1rkF0ggK4pJt2IcjB-EW4CuvROqlpbCAX?usp=drive_link).
+For the last level,we moditified the [javaDependencyGraph](https://github.com/hpnog/javaDependenceGraph) to generate PDG for a large number of functions in our dataset.Our modified code can be found [here](https://github.com/cufelxn/slimcode/tree/main/PDG).Because the code processes the dataset in line,so the function of the code should include "\n" in the end of the line so that we can remove the code by PDG in line.So we provide our preprocessed dataset for PDG.Our preprocessed dataset can be found [here](https://drive.google.com/drive/folders/1rkF0ggK4pJt2IcjB-EW4CuvROqlpbCAX?usp=drive_link).
 ### DietCode process
-we moditified the code of dietcode to process the dataset in diffient removal percent.Our moditified code can be found [here](url).After the dataset is processed by DietCode,then we feed them to CodeBert and CodeT5 for codesearch and code2nl.
+We modified the code of dietcode to process the dataset in diffient removal percent.Our modified code can be found [here](url).After the dataset is processed by DietCode,then we feed them to CodeBERT and CodeT5 for codesearch and code2nl.
 ### Slimcode process
-Based on the category removal,we proposed slimcode.Its core idea is to prioritize removing words that have less impact on downstream tasks according to our results.Our removal order is symbol tokens > the tokens beyond our category > not identifier tokens in structure > not identifier tokens in invocation > identifiers not in structure and invocation > identifiers in invocation > identifiers in structure > signature tokens.Similarly,we get removal order by AST and then remove them in the code in different removal percent.Our code can be found [here](https://github.com/cufelxn/slimcode/tree/main/slimcode).It's necessary to have a JDK8 in your computer and then you can use the follow command to compile the code.
-```./jdk1.8.0_341/bin/javac -classpath ./javaparser-core-3.6.5.jar:./lib/* -d bin SlimCode.java RemoveAll.java SpanContent.java -Xlint:unchecked```
-And then you can use the follow command to run the code.
+Based on the result of category removal,we proposed slimcode.Its core idea is to prioritize removing words that have less impact on downstream tasks according to our results.Our removal order is symbol tokens > the tokens beyond our category > not identifier tokens in structure > not identifier tokens in invocation > identifiers not in structure and invocation > identifiers in invocation > identifiers in structure > signature tokens.Similarly,we get removal order by AST and then remove them in the code in different removal percent.Our code can be found [here](https://github.com/cufelxn/slimcode/tree/main/slimcode).It's necessary to have a JDK8 in your computer and then you can use the follow command to compile the code.
+```./jdk1.8.0_341/bin/javac -classpath ./javaparser-core-3.6.5.jar -d bin SlimCode.java RemoveAll.java SpanContent.java -Xlint:unchecked```
+And then you can use the follow command to run the code. <br>
 ```./jdk1.8.0_341/bin/java -classpath ./javaparser-core-3.6.5.jar:bin/ SlimCode```
 ## Fintune
 After processing the dataset, you can feed the data into codebert,codet5 for codesearch and code summarization.
 ### Code Search
 #### CodeBERT
-The code for code search of codebert can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/codesearch/codebert).It is from [CodeBERT](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT) and we did't modify it.
+The code for code search of codebert can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/codesearch/codebert).It is from [CodeBERT](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT) and we did't modify it. <br>
 training:
 ```
 python run_classifier.py --model_type roberta --task_name codesearch --do_train --do_eval --train_file train_no_comment.txt --dev_file valid_no_comment.txt --max_seq_length 200 --per_gpu_train_batch_size 320 --per_gpu_eval_batch_size 320 --learning_rate 1e-5 --num_train_epochs 4 --gradient_accumulation_steps 1 --overwrite_output_dir --data_dir ../data/train_valid/base/ --output_dir ./codebert/base/  --model_name_or_path microsoft/codebert-base
@@ -112,7 +112,7 @@ evaluating:
 python run_classifier.py --model_type roberta --model_name_or_path microsoft/codebert-base --task_name codesearch --do_predict --output_dir ./codebert/base/ --data_dir ../data/test/base/ --max_seq_length 200 --per_gpu_train_batch_size 320 --per_gpu_eval_batch_size 320 --learning_rate 1e-5 --num_train_epochs 4 --test_file batch_0.txt --pred_model_dir ./codebert/base/ --test_result_dir ./results/codebert/base/0_batch_result.txt
 ```
 ### CodeT5
-The code for code search of CodeT5 can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/codesearch/codet5).It is originally from [DietCode](https://github.com/zhangzwwww/DietCode).And we modified it for code search and not remove token from the code.
+The code for code search of CodeT5 can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/codesearch/codet5).It is originally from [DietCode](https://github.com/zhangzwwww/DietCode).And we modified it for code search and not remove token from the code. <br>
 training:
 ```
 python run_classifier.py --model_type codet5 --task_name codesearch --do_train --do_eval --train_file train.txt --dev_file valid.txt --max_seq_length 200 --per_gpu_train_batch_size 320 --per_gpu_eval_batch_size 320 --learning_rate 1e-5 --num_train_epochs 4 --gradient_accumulation_steps 1 --overwrite_output_dir --data_dir ../data/train_valid/base/ --output_dir ./codet5/base/ --model_name_or_path Salesforce/codet5-base --tokenizer_name Salesforce/codet5-base
@@ -123,7 +123,7 @@ python run_classifier.py --model_type codet5 --model_name_or_path Salesforce/cod
 ```
 ## Code2nl
 ### CodeBERT
-The code for code2nl of codebert can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/code2nl/codebert).It is originally from [CodeBert](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT).And we modify the code for fixed epochs and evaluate only in the end of every epoch for time comparation.
+The code for code2nl of codebert can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/code2nl/codebert).It is originally from [CodeBert](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT).And we modify the code for fixed epochs and evaluate only in the end of every epoch for time comparation.<br>
 training:
 ```
 python run_codebert.py --do_train --do_eval --model_type roberta --model_name_or_path microsoft/codebert-base --train_filename ../data/base/train_no_comment.txt --dev_filename ../data/base/valid_no_comment.txt --output_dir ./codebert/base --max_source_length 256 --max_target_length 128 --beam_size 10 --train_batch_size 64 --eval_batch_size 64 -learning_rate 5e-5
