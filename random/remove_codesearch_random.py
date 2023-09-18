@@ -1,6 +1,6 @@
 
 STAGE = "train"
-f = open(f"../data/codesearch/train_valid/random/base/{STAGE}_new_0805.txt","r")
+f = open(f"../data/codesearch/train_valid/random/base/{STAGE}_no_comment.txt","r")
 lines = f.readlines()
 import json
 f.close()
