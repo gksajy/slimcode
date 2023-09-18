@@ -46,7 +46,51 @@ The original data can be downloaded from [CodeBERT](https://github.com/microsoft
 ### Random process
 We remove tokens from the code randomly and we reference the code from [DietCode](https://github.com/zhangzwwww/DietCode).Our modified code can be found [here](https://github.com/cufelxn/slimcode/tree/main/random).We use the code to remove 10%-50% tokens from the given code snippet.
 ### Category process
-We divide the tokens in the code into 3 levels: lexical level, Syntactic level and semantic level. The lexical level includes symbol tokens and identifiers. Syntactic level includes structure tokens, signature tokens and invocation tokens. The semantic level includes the tokens in PDG. For the first two levels,we recognize them from the code by AST.And we use [JavaParser](https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core) to convert the code into AST and then we remove the tokens from the code by AST independently. For the last level,we moditified the [javaDependencyGraph](https://github.com/hpnog/javaDependenceGraph) to generate PDGS for a large number of functions in our dataset.Our modiified code can be found [here](url).Because our code processes the dataset in line,so the function in the code should include "\n" in the end of the line.So the dataset needs to be preprocessed to process the code by line in PDG.Our preprocessed dataset can be found [here](url).
+We divide the tokens in the code into 3 levels: lexical level, syntactic level and semantic level. The lexical level includes symbol tokens and identifiers. Syntactic level includes structure tokens, signature tokens and invocation tokens. The semantic level includes the tokens in PDG. In the first two levels,we recognize identifiers,structure tokens,signature tokens and invocation tokens from the code by AST.And we use [JavaParser](https://mvnrepository.com/artifact/com.github.javaparser/javaparser-core) to convert the code into AST and then we remove the tokens from the code by AST independently.The relationship of our category and the node type can be seen in the table.
+<table align="center">
+	<tr>
+		<td>level</td>
+		<td>category</td>
+		<td>node type</td>
+	</tr>
+	<tr>
+		<td rowspan="2">lexical</td>
+		<td>symbol tokens</td>
+		<td>none</td>
+	</tr>
+ 	<tr>
+		<td>identifier</td>
+		<td>NameExpr node <br> VariableDeclarationExpr</td>
+	</tr>
+	<tr>
+		<td rowspan="3">syntactic</td>
+		<td>structure tokens</td>
+		<td>
+			TryStmt node <br>
+			IfStmt node <br>
+			SwitchStmt node <br>
+			WhileStmt node <br>
+			DoStmt node <br>
+			ForStmt node <br>
+			ForeachStmt node <br>
+		</td>
+	</tr>
+	<tr>
+		<td>signature tokens</td>
+		<td>MethodDeclaration node</td>
+	</tr>
+	<tr>
+		<td>invocation tokens</td>
+		<td>MethodCallExpr node</td>
+	</tr>
+	<tr>
+		<td>semantic</td>
+		<td>PDG tokens</td>
+		<td>javaDependencyGraph</td>
+	</tr>
+</table>
+
+For the last level,we moditified the [javaDependencyGraph](https://github.com/hpnog/javaDependenceGraph) to generate PDG for a large number of functions in our dataset.Our modiified code can be found [here](url).Because our code processes the dataset in line,so the function in the code should include "\n" in the end of the line so that we can remove the code by PDG in line.So we provide our preprocessed dataset for PDG.Our preprocessed dataset can be found [here](https://drive.google.com/drive/folders/1rkF0ggK4pJt2IcjB-EW4CuvROqlpbCAX?usp=drive_link).
 ### DietCode process
 we moditified the code of dietcode to process the dataset in diffient removal percent.Our moditified code can be found [here](url).After the dataset is processed by DietCode,then we feed them to CodeBert and CodeT5 for codesearch and code2nl.
 ### Slimcode process
