@@ -93,12 +93,12 @@ We divide the tokens in the code into 3 levels: lexical level, syntactic level a
 For the last level,we modfied the [javaDependencyGraph](https://github.com/hpnog/javaDependenceGraph) to generate PDG for a large number of functions in our dataset.Our modified code can be found [here](https://github.com/cufelxn/slimcode/tree/main/PDG).Because we remove the tokens in the code in line,the function of the code in the data should include "\n" in the end of the line so that we can remove the code by PDG in line.So we provide our preprocessed dataset for PDG.Our preprocessed dataset can be found [here](https://drive.google.com/drive/folders/1rkF0ggK4pJt2IcjB-EW4CuvROqlpbCAX?usp=drive_link).
 ### DietCode process
 We modified the code of DietCode to process the dataset in diffient removal percent.Our modified code can be found [here](https://github.com/cufelxn/slimcode/tree/main/dietcode).After the dataset is processed by DietCode,then we feed them to CodeBERT and CodeT5 for codesearch and code2nl.
-### Slimcode process
+### SlimCode process
 Based on the result of category removal,we proposed SlimCode.Its core idea is to prioritize removing words that have less impact on downstream tasks according to our results.Our removal order is symbol tokens > the tokens beyond our category > not identifier tokens in structure > not identifier tokens in invocation > identifiers not in structure and invocation > identifiers in invocation > identifiers in structure > signature tokens.Similarly,we get removal order by AST and then remove them in the code in different removal percent.Our code can be found [here](https://github.com/cufelxn/slimcode/tree/main/slimcode).It's necessary to have a JDK8 in your computer and then you can use the follow command to compile the code.
 ```./jdk1.8.0_341/bin/javac -classpath ./javaparser-core-3.6.5.jar -d bin SlimCode.java RemoveAll.java SpanContent.java -Xlint:unchecked```
 And then you can use the follow command to run the code. <br>
 ```./jdk1.8.0_341/bin/java -classpath ./javaparser-core-3.6.5.jar:bin/ SlimCode```
-## Fintune
+## Finetune
 After processing the dataset, you can feed the data into codebert,codet5 for codesearch and code summarization.
 ### Code Search
 #### CodeBERT
