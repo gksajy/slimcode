@@ -90,7 +90,7 @@ We divide the tokens in the code into 3 levels: lexical level, syntactic level a
 	</tr>
 </table>
 
-For the last level,we modfied the [javaDependencyGraph](https://github.com/hpnog/javaDependenceGraph) to generate PDG for a large number of functions in our dataset.Our modified code can be found [here](https://github.com/cufelxn/slimcode/tree/main/PDG).Because the code processes the dataset in line,so the function of the code should include "\n" in the end of the line so that we can remove the code by PDG in line.So we provide our preprocessed dataset for PDG.Our preprocessed dataset can be found [here](https://drive.google.com/drive/folders/1rkF0ggK4pJt2IcjB-EW4CuvROqlpbCAX?usp=drive_link).
+For the last level,we modfied the [javaDependencyGraph](https://github.com/hpnog/javaDependenceGraph) to generate PDG for a large number of functions in our dataset.Our modified code can be found [here](https://github.com/cufelxn/slimcode/tree/main/PDG).Because we remove the tokens in the code in line,the function of the code in the data should include "\n" in the end of the line so that we can remove the code by PDG in line.So we provide our preprocessed dataset for PDG.Our preprocessed dataset can be found [here](https://drive.google.com/drive/folders/1rkF0ggK4pJt2IcjB-EW4CuvROqlpbCAX?usp=drive_link).
 ### DietCode process
 We modified the code of dietcode to process the dataset in diffient removal percent.Our modified code can be found [here](https://github.com/cufelxn/slimcode/tree/main/dietcode).After the dataset is processed by DietCode,then we feed them to CodeBERT and CodeT5 for codesearch and code2nl.
 ### Slimcode process
