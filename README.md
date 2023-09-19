@@ -102,7 +102,7 @@ And then you can use the follow command to run the code. <br>
 After processing the dataset, you can feed the data into codebert,codet5 for codesearch and code summarization.
 ### Code Search
 #### CodeBERT
-The code for code search of codebert can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/codesearch/codebert).It is from [CodeBERT](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT) and we did't modify it. <br>
+The code for code search of CodeBERT can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/codesearch/codebert).It is from [CodeBERT](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT) and we did't modify it. <br>
 training:
 ```
 python run_classifier.py --model_type roberta --task_name codesearch --do_train --do_eval --train_file train_no_comment.txt --dev_file valid_no_comment.txt --max_seq_length 200 --per_gpu_train_batch_size 320 --per_gpu_eval_batch_size 320 --learning_rate 1e-5 --num_train_epochs 4 --gradient_accumulation_steps 1 --overwrite_output_dir --data_dir ../data/train_valid/base/ --output_dir ./codebert/base/  --model_name_or_path microsoft/codebert-base
@@ -112,10 +112,10 @@ evaluating:
 python run_classifier.py --model_type roberta --model_name_or_path microsoft/codebert-base --task_name codesearch --do_predict --output_dir ./codebert/base/ --data_dir ../data/test/base/ --max_seq_length 200 --per_gpu_train_batch_size 320 --per_gpu_eval_batch_size 320 --learning_rate 1e-5 --num_train_epochs 4 --test_file batch_0.txt --pred_model_dir ./codebert/base/ --test_result_dir ./results/codebert/base/0_batch_result.txt
 ```
 ### CodeT5
-The code for code search of CodeT5 can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/codesearch/codet5).It is originally from [DietCode](https://github.com/zhangzwwww/DietCode).And we modified it for code search and not remove token from the code. <br>
+The code for code search of CodeT5 can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/codesearch/codet5).It is originally from [DietCode](https://github.com/zhangzwwww/DietCode).And we modified it for code search and not remove tokens from the code. <br>
 training:
 ```
-python run_classifier.py --model_type codet5 --task_name codesearch --do_train --do_eval --train_file train.txt --dev_file valid.txt --max_seq_length 200 --per_gpu_train_batch_size 320 --per_gpu_eval_batch_size 320 --learning_rate 1e-5 --num_train_epochs 4 --gradient_accumulation_steps 1 --overwrite_output_dir --data_dir ../data/train_valid/base/ --output_dir ./codet5/base/ --model_name_or_path Salesforce/codet5-base --tokenizer_name Salesforce/codet5-base
+python run_classifier.py --model_type codet5 --task_name codesearch --do_train --do_eval --train_file train_no_comment.txt --dev_file valid_no_comment.txt --max_seq_length 200 --per_gpu_train_batch_size 320 --per_gpu_eval_batch_size 320 --learning_rate 1e-5 --num_train_epochs 4 --gradient_accumulation_steps 1 --overwrite_output_dir --data_dir ../data/train_valid/base/ --output_dir ./codet5/base/ --model_name_or_path Salesforce/codet5-base --tokenizer_name Salesforce/codet5-base
 ```
 evaluating:
 ```
@@ -123,14 +123,14 @@ python run_classifier.py --model_type codet5 --model_name_or_path Salesforce/cod
 ```
 ## Code2nl
 ### CodeBERT
-The code for code2nl of codebert can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/code2nl/codebert).It is originally from [CodeBert](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT).And we modify the code for fixed epochs and evaluate only in the end of every epoch for time comparation.<br>
+The code for code2nl of CodeBERT can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/code2nl/codebert).It is originally from [CodeBert](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT).And we modified the code for fixed epochs and evaluate only in the end of every epoch for time comparation.<br>
 training:
 ```
-python run_codebert.py --do_train --do_eval --model_type roberta --model_name_or_path microsoft/codebert-base --train_filename ../data/base/train_no_comment.txt --dev_filename ../data/base/valid_no_comment.txt --output_dir ./codebert/base --max_source_length 256 --max_target_length 128 --beam_size 10 --train_batch_size 64 --eval_batch_size 64 -learning_rate 5e-5
+python run_codebert.py --do_train --do_eval --model_type roberta --model_name_or_path microsoft/codebert-base --train_filename ./data/base/train.txt --dev_filename ../data/base/valid.txt --output_dir ./codebert/base --max_source_length 256 --max_target_length 128 --beam_size 10 --train_batch_size 64 --eval_batch_size 64 -learning_rate 5e-5
 ```
 evaluating:
 ```
-python run_codebert_three.py --do_test --model_type roberta --model_name_or_path microsoft/codebert-base --load_model_path codebert/base/checkpoint-best-bleu/pytorch_model.bin  --test_filename ../data/base/test_no_comment.txt --output_dir codebert/base --max_source_length 256 --max_target_length 128 --beam_size 10 --eval_batch_size 64
+python run_codebert_three.py --do_test --model_type roberta --model_name_or_path microsoft/codebert-base --load_model_path codebert/base/checkpoint-best-bleu/pytorch_model.bin  --test_filename ./data/base/test.txt --output_dir codebert/base --max_source_length 256 --max_target_length 128 --beam_size 10 --eval_batch_size 64
 ```
 ### CodeT5
 The code for code2nl of CodeT5 can be found [here](https://github.com/cufelxn/slimcode/tree/main/model/code2nl/codet5).It is originally from [CodeT5](https://github.com/salesforce/CodeT5/tree/main/CodeT5). We modfied the code for fixed epochs and not stop early.
