@@ -7,7 +7,7 @@ This repo provides the code for reproducing the experiments in SlimCode. SlimCod
 # Quick Start
 ## Prepare the dataset
 We use the same dataset as [CodeBERT](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT) and [Dietcode](https://github.com/zhangzwwww/DietCode). But we remove all the comments in the code to make more code can be converted to AST and remove the code that can't be converted to AST after removing the comments.
-The original data can be downloaded from [CodeBERT](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT) and our preprocessed data can be download from [SlimCode](https://drive.google.com/drive/folders/1IV9a9Dc9aZRXYUHRXjBN2fNr6wIdmrLT?usp=drive_link).The final specific data volume is summarized as follows.
+The original data can be downloaded from [CodeBERT](https://github.com/microsoft/CodeBERT/tree/master/CodeBERT) and our preprocessed data can be download from [SlimCode](https://drive.google.com/drive/folders/1TlhFHyHODQbu7wu30Tg4TQCEmSsKiLJo?usp=drive_link).The final specific data volume is summarized as follows.
 <table align="center">  
 	<tr>
     <td rowspan="2" style="text-align: center;" align="center">Dataset Volume</td> 
