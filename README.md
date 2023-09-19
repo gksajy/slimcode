@@ -56,7 +56,7 @@ We divide the tokens in the code into 3 levels: lexical level, syntactic level a
 	<tr>
 		<th rowspan="2" style="background-color: transparent;">lexical</th>
 		<td>symbol tokens</td>
-		<td>none</td>
+		<td>None</td>
 	</tr>
  	<tr>
 		<td>identifier</td>
