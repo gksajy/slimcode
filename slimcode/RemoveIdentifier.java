@@ -114,26 +114,7 @@ public class RemoveIdentifier {
 
         String new_code = String.join(" ",codeSplits);
 
-//        try {
-//            if (id < 1000){
-//                bufferedWriter_log.write(id + "：" + removedCode + "\n");
-//                bufferedWriter_log.write(id + "：" + code+"\n");
-//                bufferedWriter_log.write(id + "：" + new_code + "\n\n");
-//            }
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         return new_code;
-//        String new_code =  removeCodeByMark(allLists, code);
-//        try {
-//            bufferedWriter_log.write("\n" + id + ":" + code+"\n");
-//            bufferedWriter_log.write(id + ":" + new_code + "\n\n");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return new_code;
     }
 
     public static String remove(String code){
@@ -169,13 +150,9 @@ public class RemoveIdentifier {
 
         try {
             long startTime = System.currentTimeMillis();
-//            String stage = "test";
-//            List<String> stringList = readFile("data/" + stage + "_no_common.txt");
-//            FileOutputStream fileOutputStream = new FileOutputStream("remove_results/" + stage + "_remove_identifier.txt");
-
-            List<String> stringList = readFile("0912/code2nl/code2nl_data_base.txt");
-            FileOutputStream fileOutputStream = new FileOutputStream("0912/code2nl/code2nl_remove_identifier.txt");
-
+            String stage = "test";
+            List<String> stringList = readFile("data/" + stage + "_no_common.txt");
+            FileOutputStream fileOutputStream = new FileOutputStream("remove_results/" + stage + "_remove_identifier.txt");
 
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
@@ -217,12 +194,6 @@ public class RemoveIdentifier {
             System.out.println("avg remove percent:"+avgRemovePercent);
             long endTime = System.currentTimeMillis();
             System.out.println("totalTime:" + (endTime - startTime));
-//	    //关闭
-//            if (bufferedWriter_log != null){
-//                bufferedWriter_log.close();
-//                outputStreamWriter_log.close();
-//                fileOutputStream_log.close();
-//            }
 
         } catch (IOException e) {
             e.printStackTrace();
