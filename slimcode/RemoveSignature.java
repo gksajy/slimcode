@@ -28,13 +28,13 @@ public class RemoveSignature {
     public static int targetLength = 0;
 
 
-    public static ArrayList<Integer> getRemovedIndex(String[] codeSplits,int[] codeFlag){
+    public static ArrayList<Integer> getRemovedIndex(String[] codeSplits,boolean[] codeFlag){
         ArrayList<Integer> removeIndex = new ArrayList<>();
-            for (int j = codeSplits.length-1;j>=0;j--){
-                if (codeFlag[j] == 1){
-                    removeIndex.add(j);
-                }
+        for (int j = codeSplits.length-1;j>=0;j--){
+            if (codeFlag[j]){
+                removeIndex.add(j);
             }
+        }
         return removeIndex;
 
     }
@@ -48,92 +48,26 @@ public class RemoveSignature {
 
 
     public static String removeCode(String code, Map map,int targetLength){
-        if (code.split(" +").length <= targetLength){
-            return code;
-        }
-        if(fileOutputStream_log == null){
-            try {
-                fileOutputStream_log = new FileOutputStream("log.txt");
-                outputStreamWriter_log = new OutputStreamWriter(fileOutputStream_log);
-                bufferedWriter_log = new BufferedWriter(outputStreamWriter_log);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
 
-        }
-
-        ArrayList<SpanContent> identifierList = (ArrayList<SpanContent>) map.get("identifiers");
-        ArrayList<SpanContent> invocationList = (ArrayList<SpanContent>) map.get("function_invocation");
-        ArrayList<SpanContent> structureList = (ArrayList<SpanContent>) map.get("function_structure");
         ArrayList<SpanContent> signatureList = (ArrayList<SpanContent>) map.get("method_signature");
-        ArrayList<SpanContent> simpleSymbolList = new ArrayList<SpanContent>();
-        ArrayList<SpanContent> otherList = new ArrayList<SpanContent>();
 
         String[] codeSplits = code.split(" +");
-        boolean[] structureFlag = new boolean[codeSplits.length];
-        boolean[] invocationFlag = new boolean[codeSplits.length];
-        boolean[] identifierFlag = new boolean[codeSplits.length];
-        boolean[] simpleSymbolFlag = new boolean[codeSplits.length];
+        boolean[] signatureFlag = new boolean[codeSplits.length];
 
         int[] codeFlag = new int[codeSplits.length];
-        // signature > identifier > structure > invocation > simple symbols
         for (SpanContent spanContent : signatureList){
-            markFlag(codeFlag,spanContent,1,code,null);
-        }
-        for (SpanContent spanContent : identifierList){
-            markFlag(codeFlag,spanContent,-1,code,identifierFlag);
-        }
-        for (SpanContent spanContent : structureList){
-            markFlag(codeFlag,spanContent,-1,code,structureFlag);
-        }
-        for (SpanContent spanContent : invocationList){
-            markFlag(codeFlag,spanContent,-1,code,invocationFlag);
-        }
-        for (int i = 0; i< codeSplits.length;i++){
-            if (!simpleSymbolFlag[i] && structureFlag[i] && !identifierFlag[i]){
-                codeFlag[i] = 6; // structure中的非identifier
-            }else if (!simpleSymbolFlag[i] && invocationFlag[i] && !identifierFlag[i]){
-                codeFlag[i] = 5; // invocation中的非identifier
-            }else if (!simpleSymbolFlag[i] && structureFlag[i] && identifierFlag[i]){
-                codeFlag[i] = 2; // structure中的identifier
-            }else if (!simpleSymbolFlag[i] && invocationFlag[i] && identifierFlag[i]){
-                codeFlag[i] = 3; // invocation中的identifier
-            }else if (!simpleSymbolFlag[i] && !invocationFlag[i] && !structureFlag[i] && identifierFlag[i]){
-                codeFlag[i] = 4; // 其他identifier
-            }
+            markFlag(codeFlag,spanContent,1,code,signatureFlag);
         }
 
-        //删除优先级：simple symbols > structure中非identifier >  invocation中非identifier > 非structre和invocation中的identifier >
-        // invocation中identifier > structure中的identifier > signature
         String removedCode = "";
-        ArrayList<Integer> removedIndex = getRemovedIndex(codeSplits, codeFlag);
+        ArrayList<Integer> removedIndex = getRemovedIndex(codeSplits, signatureFlag);
         for (int index : removedIndex){
             removedCode += codeSplits[index] + " ";
             codeSplits[index] = "";
         }
-
         String new_code = String.join(" ",codeSplits);
 
-//        try {
-//            if (id < 1000){
-//                bufferedWriter_log.write(id + "：" + removedCode + "\n");
-//                bufferedWriter_log.write(id + "：" + code+"\n");
-//                bufferedWriter_log.write(id + "：" + new_code + "\n\n");
-//            }
-//
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         return new_code;
-//        String new_code =  removeCodeByMark(allLists, code);
-//        try {
-//            bufferedWriter_log.write("\n" + id + ":" + code+"\n");
-//            bufferedWriter_log.write(id + ":" + new_code + "\n\n");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return new_code;
     }
 
     public static String remove(String code){
@@ -170,13 +104,16 @@ public class RemoveSignature {
         try {
             long startTime = System.currentTimeMillis();
             String stage = "test";
-            List<String> stringList = readFile("data/" + stage + "_no_common.txt");
-            FileOutputStream fileOutputStream = new FileOutputStream("remove_results/" + stage + "_remove_identifier.txt");
-
-
-
+            List<String> stringList = readFile("0923/" + stage + "_no_comment.txt");
+            FileOutputStream fileOutputStream = new FileOutputStream("0923/" + stage + "_remove_signature.txt");
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
             BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
+
+
+            FileOutputStream fileOutputStream1 = new FileOutputStream(stage + "_new_0923.txt");
+            OutputStreamWriter outputStreamWriter1 = new OutputStreamWriter(fileOutputStream1);
+            BufferedWriter bufferedWriter1 = new BufferedWriter(outputStreamWriter1);
+	    
             double allRemovePercent = 0;
             int count = 0;
             for(int i=0; i < stringList.size();i++){
@@ -191,6 +128,8 @@ public class RemoveSignature {
                 int originLength = code.split(" +").length;
                 try {
                     code = remove(code).trim();
+		    
+		            bufferedWriter1.write(lineStr+"\n");
 //                  codeList[4] = code;
                     codeList[0] = code;
                     int removeLength = code.split(" +").length;
@@ -198,7 +137,8 @@ public class RemoveSignature {
                         System.out.println("removed length:"+removeLength);
                     }
                     double removePercent = (originLength - removeLength) * 1.0 / originLength;
-                    allRemovePercent += removePercent;
+//                    System.out.println(removePercent);
+		            allRemovePercent += removePercent;
                     String newLine = String.join("<CODESPLIT>", codeList);
                     bufferedWriter.write(newLine + "\n");
                     count++;
@@ -221,7 +161,9 @@ public class RemoveSignature {
 //                outputStreamWriter_log.close();
 //                fileOutputStream_log.close();
 //            }
-
+		bufferedWriter1.close();
+		outputStreamWriter1.close();
+		fileOutputStream1.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
