@@ -33,8 +33,8 @@ The original data can be downloaded from [CodeBERT](https://github.com/microsoft
 	</tr>
  <tr>
    <td align="center">SlimeCode</td>
-    <td align="center">904828</td>
-    <td align="center">30438</td>
+    <td align="center">904817</td>
+    <td align="center">30437</td>
     <td align="center">26780</td>
     <td align="center">164813</td>
     <td align="center">5183</td>
