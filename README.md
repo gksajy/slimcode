@@ -29,7 +29,7 @@ The original data can be downloaded from [CodeBERT](https://github.com/microsoft
     <td align="center">26909</td>
     <td align="center">164923</td>
     <td align="center">5183</td>
-    <td align="center">16955</td>
+    <td align="center">10955</td>
 	</tr>
  <tr>
    <td align="center">SlimeCode</td>
