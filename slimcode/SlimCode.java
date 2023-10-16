@@ -147,8 +147,6 @@ public class SlimCode {
 	    long time = endTime - startTime;
 	    labelTime += time;
         startTime = System.currentTimeMillis();
-        //删除优先级：simple symbols > structure中非identifier >  invocation中非identifier > 非structre和invocation中的identifier >
-        // invocation中identifier > structure中的identifier > signature
         String removedCode = "";
         ArrayList<Integer> removedIndex = getRemovedIndex(codeSplits, codeFlag);
         for (int index : removedIndex){
