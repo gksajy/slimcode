@@ -32,7 +32,7 @@ The original data can be downloaded from [CodeBERT](https://github.com/microsoft
     <td align="center">10955</td>
 	</tr>
  <tr>
-   <td align="center">SlimeCode</td>
+   <td align="center">SlimCode</td>
     <td align="center">904817</td>
     <td align="center">30437</td>
     <td align="center">26780</td>
